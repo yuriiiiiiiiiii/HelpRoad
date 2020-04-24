@@ -14,8 +14,8 @@ public class StoreService {
 	@Autowired
 	private StoreDao storeDao;
 	
-	public List<Store> getCurrent() {
-		return storeDao.getStores();
+	public List<Store> getCurrent(String name) {
+		return storeDao.getStores(name);
 	}
 
 }

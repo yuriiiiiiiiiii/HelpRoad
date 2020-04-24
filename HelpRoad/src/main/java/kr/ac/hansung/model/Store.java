@@ -24,4 +24,13 @@ public class Store {
 	public void setLocation(String location) {
 		this.location=location;
 	}
+	public int getFloor() {
+		return floor;
+	}
+	public String getName() {
+		return name;
+	}
+	public String getLocation() {
+		return location;
+	}
 }

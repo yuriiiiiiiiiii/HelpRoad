@@ -24,17 +24,30 @@ public class StoreDao {
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 		
-	
-		
-		
-		
-	/*	public int getRowCount() {
+		//이름 부분 받아서 층이랑 이름 보내고싶어
+		// query and return a multiple objects
+		public List<Store> getStores(String name) {
 
-			String sqlStatement = "select count(*) from store";
-			return jdbcTemplate.queryForObject(sqlStatement, Integer.class);
+			String sqlStatement = "select * from store where name like ?"; // ?=placeholder (밑에  "%" + name + "%" 이게 들어감)
+
+			return jdbcTemplate.query(sqlStatement, new Object[] {"%" + name + "%"}, new RowMapper<Store>() {
+
+				@Override
+				public Store mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+					Store store = new Store();
+
+					store.setFloor(rs.getInt("floor"));
+					store.setName(rs.getString("name"));
+					store.setLocation(rs.getString("location"));
+					
+					return store;
+				}
+			});
 		}
-
-	
+		
+		/*	
+		 //층, 이름 받아서 (도착)위치를 찾아서 지도로 띄워야해
 		// query and return a single object
 		public Store getStore(int floor, String name) {
 
@@ -55,57 +68,4 @@ public class StoreDao {
 				}
 			});
 		}*/
-		
-		// query and return a multiple objects
-		public List<Store> getStores() {
-
-			String sqlStatement = "select * from store"; // placeholder
-
-			return jdbcTemplate.query(sqlStatement, new RowMapper<Store>() {
-
-				@Override
-				public Store mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-					Store store = new Store();
-
-					store.setFloor(rs.getInt("floor"));
-					store.setName(rs.getString("name"));
-					store.setLocation(rs.getString("location"));
-					
-					return store;
-				}
-			});
-		}
-/*
-		public boolean insert(Store store) {
-
-			String name = store.getName();
-			String email = store.getEmail();
-			String text = store.getText();
-
-			String sqlStatement = "insert into store (floor, name, location) values (?, ?, ?)";
-
-			return (jdbcTemplate.update(sqlStatement, new Object[] { name, email, text }) == 1);
-		}
-
-		public boolean update(Store store) {
-
-			int id = store.getId();
-			String name = storer.getName();
-			String email = store.getEmail();
-			String text = store.getText();
-
-			String sqlStatement = "update store set floor=?, name=?, location=? where floor=?, name=?"; 
-
-			return (jdbcTemplate.update(sqlStatement, new Object[] { name, email, text, id }) == 1);
-		}
-
-		public boolean delete(int id) {
-
-			String sqlStatement = "delete from shinsegea where floor=?, name=?";
-
-			return (jdbcTemplate.update(sqlStatement, new Object[] { id }) == 1);
-
-		}*/
-
 }
