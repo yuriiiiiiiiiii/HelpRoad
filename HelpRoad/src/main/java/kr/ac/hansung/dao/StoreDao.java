@@ -28,7 +28,7 @@ public class StoreDao {
 		// query and return a multiple objects
 		public List<Store> getStores(String name) {
 
-			String sqlStatement = "select * from store where name like ?"; // ?=placeholder (밑에  "%" + name + "%" 이게 들어감)
+			String sqlStatement = "select * from store where name like ?"; // ?=placeholder (밑에  "%" + name +		 "%" 이게 들어감)
 
 			return jdbcTemplate.query(sqlStatement, new Object[] {"%" + name + "%"}, new RowMapper<Store>() {
 
@@ -39,7 +39,8 @@ public class StoreDao {
 
 					store.setFloor(rs.getInt("floor"));
 					store.setName(rs.getString("name"));
-					store.setLocation(rs.getString("location"));
+					store.setRow(rs.getInt("row"));
+					store.setCol(rs.getInt("col"));
 					
 					return store;
 				}

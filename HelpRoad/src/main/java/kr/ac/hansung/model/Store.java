@@ -13,7 +13,8 @@ public class Store {
 	
 	private int floor;
 	private String name;
-	private String location;
+	private int row;
+	private int col;
 	
 	public void setFloor(int floor) {
 		this.floor=floor;
@@ -21,8 +22,11 @@ public class Store {
 	public void setName(String name) {
 		this.name=name;
 	}
-	public void setLocation(String location) {
-		this.location=location;
+	public void setRow(int row) {
+		this.row=row;
+	}
+	public void setCol(int col) {
+		this.col=col;
 	}
 	public int getFloor() {
 		return floor;
@@ -30,7 +34,10 @@ public class Store {
 	public String getName() {
 		return name;
 	}
-	public String getLocation() {
-		return location;
+	public int getRow() {
+		return row;
+	}
+	public int getCol() {
+		return col;
 	}
 }

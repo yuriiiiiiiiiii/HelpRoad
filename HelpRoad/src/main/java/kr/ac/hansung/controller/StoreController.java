@@ -10,16 +10,25 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.ac.hansung.model.Store;
 import kr.ac.hansung.service.StoreService;
 
 @Controller
+@RequestMapping("/map")
 public class StoreController {
 	
 	@Autowired
 	private StoreService storeService;
+	
+	@RequestMapping
+	public String map(Model model) {
+	
+		
+		return "map";
+	}
 	
 	//검색창
 	@RequestMapping("/search")
@@ -28,13 +37,13 @@ public class StoreController {
 	}
 	
 	//검색결과
-	@RequestMapping("/list")
+	@RequestMapping("/search/list")
 	public String showStores(Model model, @RequestParam(value="name", required=false) String name) {
 		
 		List<Store> stores = storeService.getCurrent(name);
 		model.addAttribute("stores", stores);
 		
-	return "list";
+		return "list";
 	}
 
 

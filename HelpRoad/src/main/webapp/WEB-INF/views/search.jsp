@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
     
 <!DOCTYPE html>
 <html>
@@ -9,11 +10,11 @@
 </head>
 <body>
 	
-	<form action="/HelpRoad/list" method="get"> 
+	<sf:form action="${pageContext.request.contextPath}/map/search/list" method="get"> 
 		검색:
 		<input type="text" name="name"> <br/>
 		<input type="submit" value="Press">
-	</form>
+	</sf:form>
 	<!--  <input type="file" accept="image/*" capture="camera"> -->
 	
 </body>
