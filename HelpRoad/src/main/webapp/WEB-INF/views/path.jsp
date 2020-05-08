@@ -23,10 +23,6 @@
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
-	<%
-		double stLat = Double.parseDouble(request.getParameter("latitude"));
-		double stLon = Double.parseDouble(request.getParameter("longitude"));
-	%>
 	<a-scene vr-mode-ui="enabled: false" embedded
 		arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
 		<a-camera gps-camera rotation-reader>

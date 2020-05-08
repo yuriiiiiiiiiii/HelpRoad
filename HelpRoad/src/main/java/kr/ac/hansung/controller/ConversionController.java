@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.ac.hansung.model.Current;
+import kr.ac.hansung.model.Position;
 import kr.ac.hansung.model.Point;
 import kr.ac.hansung.service.ConversionService;
 import kr.ac.hansung.service.CurrentService;

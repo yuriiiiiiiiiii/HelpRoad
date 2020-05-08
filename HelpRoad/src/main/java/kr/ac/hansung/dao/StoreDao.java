@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import kr.ac.hansung.model.Point;
 import kr.ac.hansung.model.Store;
 
 @Repository
@@ -43,6 +44,45 @@ public class StoreDao {
 					store.setCol(rs.getInt("col"));
 					
 					return store;
+				}
+			});
+		}
+
+		public Store getStoreByFloornName(int floor, String name) {
+			
+			String sqlStatement = "select * from store where name=? and floor=?";
+
+			return jdbcTemplate.queryForObject(sqlStatement, new Object[] {name, floor}, new RowMapper<Store>() {
+
+				@Override
+				public Store mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+					Store store = new Store();
+
+					store.setFloor(rs.getInt("floor"));
+					store.setName(rs.getString("name"));
+					store.setRow(rs.getInt("row"));
+					store.setCol(rs.getInt("col"));
+					
+					return store;
+				}
+			});
+		}
+
+		public Point getStorePoint(int floor, String name) {
+			
+			String sqlStatement = "select * from store where name=? and floor=?";
+
+			return jdbcTemplate.queryForObject(sqlStatement, new Object[] {name, floor}, new RowMapper<Point>() {
+
+				@Override
+				public Point mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+					Point point = new Point();
+
+					point.setPoint(rs.getInt("row"), rs.getInt("col"));
+					
+					return point;
 				}
 			});
 		}

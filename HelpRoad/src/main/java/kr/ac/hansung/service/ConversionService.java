@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.ac.hansung.model.Point;
-import kr.ac.hansung.model.Current;
+import kr.ac.hansung.model.Position;
 
 @Service
 public class ConversionService {
@@ -17,7 +17,7 @@ public class ConversionService {
 	}*/
 	
 	
-	 public Point mappingMap(Point point) { // lat = 현재 위도, lon = 현재 경도
+	 public Point mappingMap(double lat, double lon) { // lat = 현재 위도, lon = 현재 경도
 
 	      Point cur = new Point(); // 행렬에서 현재 위치
 	      Point p1 = new Point(); // 맨 왼쪽 상단 첫 지점
@@ -26,8 +26,8 @@ public class ConversionService {
 	      p1.setPoint(37.560603, 126.980320); // 시작점
 	      p2.setPoint(37.560020, 126.980275); // 시작점의 맨 하단점
 
-	      double distance1 = distance(p1.getLat(), p1.getLon(), point.getLat(), point.getLon()); // 현재 위치 gps 받아서 넣기!!!!!!!!!!!!
-	      double distance2 = distance(p2.getLat(), p2.getLon(), point.getLat(), point.getLon()); // 현재 위치 gps 받아서 넣기!!!!!!!!!!!!
+	      double distance1 = distance(p1.getLat(), p1.getLon(), lat, lon); // 현재 위치 gps 받아서 넣기!!!!!!!!!!!!
+	      double distance2 = distance(p2.getLat(), p2.getLon(), lat, lon); // 현재 위치 gps 받아서 넣기!!!!!!!!!!!!
 
 	      double x = (distance1 * distance1 - distance2 * distance2 + 65 * 65) / (65*2); // 현재 위치에 해당하는 행렬 y좌표
 	      double y = Math.sqrt(distance1 * distance1 - x * x);

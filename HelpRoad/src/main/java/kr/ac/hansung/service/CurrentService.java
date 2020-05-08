@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import kr.ac.hansung.model.Current;
+import kr.ac.hansung.model.Position;
 
 @Service
 public class CurrentService {

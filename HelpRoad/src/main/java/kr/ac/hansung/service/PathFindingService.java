@@ -5,10 +5,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Queue;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Service;
 
 import kr.ac.hansung.model.Point;
 
+@Service
 public class PathFindingService {
 
 
@@ -26,9 +31,12 @@ public class PathFindingService {
 	   private static LinkedListService stack = new LinkedListService();
 
 	   public static void createMap() { // 평면도 2진수 행렬 https://fors.tistory.com/77
-	      try {
+		   ClassPathResource resource = new ClassPathResource("floors/1f.csv");
+
+		   try {
 	         // csv 데이터 파일
-	         File csv = new File("C:\\Users\\user\\f1.csv"); // 경로 q
+			   Path path = Paths.get(resource.getURI());
+	         File csv = new File(path.toString()); // 경로 q
 	         BufferedReader br = new BufferedReader(new FileReader(csv));
 	         String line = "";
 	         int row = 0, i;
@@ -198,11 +206,11 @@ public class PathFindingService {
 	      }
 	   }
 
-	   public static void main(String[] args) {
+	   public void getRoute(Point startp, Point endp) {
 	      createMap();
-	      start.setPoint(20, 80);
+	      start.setPoint(startp.getX(), startp.getY());
 	      move.setPoint(start.getX(), start.getY());
-	      end.setPoint(50, 15);
+	      end.setPoint(endp.getX(), endp.getY());
 	      findingLogic();
 
 	      LinkedListService.ListIterator listIterator = stack.listIterator();
