@@ -18,10 +18,12 @@ div {
 	padding: 8px;
 	margin: 10px;
 }
+input[type="text"]{
+	text-align: center;
+}
 .btn{
 	float: right;
 	font-size: 20px;
-px;
 }
 </style>
 <script src="http://code.jquery.com/jquery-1.11.0.js"></script>
@@ -32,9 +34,13 @@ px;
 		if (navigator.geolocation) {
 			//위치 정보를 얻기
 			navigator.geolocation.getCurrentPosition(function(pos) {
+				alert(pos.coords.latitude + ' ' + pos.coords.longitude + ' ' + pos.coords.heading);
 				$('#latitude').attr('value', pos.coords.latitude); // 위도
 				$('#longitude').attr('value', pos.coords.longitude); // 경도
-			});
+				$('#heading').attr('value', pos.coords.heading); // 방향
+			}, function(error){
+	        	 alert("error");
+	         }, { enableHighAccuracy: true, maximumAge: 5000}); 
 		} else {
 			alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
 		}
@@ -46,6 +52,7 @@ px;
 			출발지 <div> 현재 위치
 			<input type="hidden" id="latitude" name="latitude">
        		<input type="hidden" id="longitude" name="longitude">
+       		<input type="hidden" id="heading" name="heading">
 			<select name="startFloor">
 				<option value="1">1층</option>
 				<option value="2">2층</option>
@@ -55,7 +62,7 @@ px;
 		</div>
 		<br /> 도착지 
 		<div>
-			<input type="text" name="floor" value="${store.floor}">F
+			<input type="text" name="floor" value="${store.floor}" style="width:20px">F
 			<input type="text" name="name" value="${store.name}">
 		</div>
 		<a href="<c:url value="/map/search"/>"> <i class="fas fa-search"></i></a>

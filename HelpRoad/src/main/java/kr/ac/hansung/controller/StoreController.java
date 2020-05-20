@@ -27,6 +27,7 @@ public class StoreController {
 		return "map";
 	}
 	
+	//층과 이름으로 매장 찾기
 	@RequestMapping(value="/{floor}/{name}", method=RequestMethod.GET)
 	public String map(Model model, @PathVariable int floor, @PathVariable String name) {
 		
