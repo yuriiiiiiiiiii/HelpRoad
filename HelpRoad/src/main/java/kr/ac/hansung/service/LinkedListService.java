@@ -1,10 +1,10 @@
 package kr.ac.hansung.service;
 
-import java.util.ListIterator;
+import java.util.LinkedList;
 
 import kr.ac.hansung.model.Point;
 
-public class LinkedListService {
+public class LinkedListService extends LinkedList {
 	
 	private Node head = null;
 	   private Node tail = null;
@@ -193,7 +193,7 @@ public class LinkedListService {
 	      return index;
 	   }
 
-	   public ListIterator listIterator() {
+	   /*public ListIterator listIterator() {
 	      return new ListIterator();
 	   }
 
@@ -239,6 +239,6 @@ public class LinkedListService {
 	         LinkedListService.this.remove(nextIndex - 1);
 	         nextIndex--;
 	      }
-	   }
+	   }*/
 
 }

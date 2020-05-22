@@ -46,6 +46,10 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>

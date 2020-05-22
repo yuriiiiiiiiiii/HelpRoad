@@ -26,7 +26,7 @@ input[type="text"]{
 	font-size: 20px;
 }
 </style>
-<script src="http://code.jquery.com/jquery-1.11.0.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.0.js"></script>
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 <script>
 	$(function() {
@@ -58,6 +58,9 @@ input[type="text"]{
 				<option value="2">2층</option>
 				<option value="3">3층</option>
 				<option value="4">4층</option>
+				<option value="5">5층</option>
+				<option value="6">6층</option>
+				<option value="7">7층</option>
 			</select>
 		</div>
 		<br /> 도착지 
