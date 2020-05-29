@@ -23,7 +23,8 @@
     <script>
     	//window.onload = function(){
 	$(document).ready(function(){
-		navigator.geolocation.watchPosition(function(position){
+		//var heading;
+		navigator.geolocation.getCurrentPosition(function(position){
 			document.querySelector('#navi').setAttribute('gps-entity-place', `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`);
         	//$('#latitude').attr('value', position.coords.latitude); // 위도
 			//$('#longitude').attr('value', position.coords.longitude); // 경도
@@ -31,36 +32,88 @@
 			//alert("계속 실행 되니");
 				//alert(position.coords.heading);
 			//heading = position.coords.heading;
-			 setInterval(function(){
-				 $.ajax({
-					url: "path.do",
-					type: 'POST',
-					data: {"heading": position.coords.heading},
-					cache: false,
-					success: function(data){
-						//alert("성공" + data);
-
-						//document.getElementById("navi").src = "${pageContext.request.contextPath}/resources/images/"+data+".png";
-						document.querySelector('#navi').setAttribute('src', `${pageContext.request.contextPath}/resources/images/`+data+`.png`);
-						//document.querySelector('a-image').flushToDOM();
-						//window.location.reload();
-						//var time = new Date().getTime();
-						//var src = '${pageContext.request.contextPath}/resources/images/'+data+'.png?time=' + time;
-						//$('#navi').attr('src', src);
-						document.querySelector('a-scene').flushToDOM(true);
-						if(data == "end")
-							setTimeout(function(){
-								location.href = "${pageContext.request.contextPath}/map";
-							}, 5000);
-					},
-					error: function(){
-						alert("에러");
-					}
-				});
-			}, 3000);
+			 
 		}, function(error){
 			alert("error");
 		}, { enableHighAccuracy: true, maximumAge: 0 });
+		
+		/*setInterval(function(){
+			 $.ajax({
+				url: "path.do",
+				type: 'POST',
+				data: {"heading": heading},
+				cache: false,
+				dataType: "text",
+				success: function(data){
+					//alert("방향 "+ position.coords.heading);
+					//alert("성공" + data);
+
+					//document.getElementById("navi").src = "${pageContext.request.contextPath}/resources/images/"+data+".png";
+					document.querySelector('#navi').setAttribute('src', `${pageContext.request.contextPath}/resources/images/`+data+`.png`);
+					//document.querySelector('a-image').flushToDOM();
+					//window.location.reload();
+					//var time = new Date().getTime();
+					//var src = '${pageContext.request.contextPath}/resources/images/'+data+'.png?time=' + time;
+					//$('#navi').attr('src', src);
+					document.querySelector('a-scene').flushToDOM(true);
+					if(data == "end")
+						setTimeout(function(){
+							//location.replace("${pageContext.request.contextPath}/map");
+							//location.href = "${pageContext.request.contextPath}/map";
+						}, 5000);
+				},
+				error: function(request, status, error){
+					alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+				}
+			});
+		}, 2000);*/
+		if(window.DeviceOrientationEvent){	// 기능 지원 확인
+			var alpha;
+	    	window.addEventListener('deviceorientation', function(event){
+
+	    		// ios
+	    		if(event.webkitCompassHeading){
+	    			alpha = event.webkitCompassHeading;
+	    		}
+	    		
+	    		// android
+	    		else{
+	    			alpha = event.alpha;
+	    			if(!window.chrome){
+	    				alpha = alpha - 270;
+	    			}
+	    		}
+	    		//alert(alpha);
+	    	
+	    	});
+	    	setInterval(function(){
+	    		//alert(alpha);
+				 $.ajax({
+					url: "path.do",
+					type: 'POST',
+					data: {"heading": alpha},
+					cache: false,
+					dataType: "text",
+					success: function(data){
+						//alert(alpha);
+						document.querySelector('#navi').setAttribute('src', `${pageContext.request.contextPath}/resources/images/`+data+`.png`);
+						document.querySelector('a-scene').flushToDOM(true);
+						if(data == "end")
+							setTimeout(function(){
+								//location.href = "${pageContext.request.contextPath}/map";
+								//alert("도착");
+							}, 5000);
+					},
+					error: function(request, status, error){
+						alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+					}
+				});
+			}, 2000);
+	    }
+		else{
+			alert('이 기기는 방향 지원을 하지 않습니다.');
+		}
+		
 	});
     	//}
         // a-entity 태그를 찾아 gps-entity-place 속성을 현재 위치로 설정 */
@@ -68,15 +121,16 @@
             document.querySelector('#navi').setAttribute('gps-entity-place', `latitude: ${position.coords.latitude}; longitude: ${position.coords.longitude};`)
           }); */
    </script>
-   <script>
-   		/*window.onload = function(){
+ 
+   <!-- <script>
+   		window.onload = function(){
    			document
    			.querySelector('button')
    			.addEventListener('click', function(){
    				location.href="${pageContext.request.contextPath}/map";
    			});
-   		};*/
-   		/* AFRAME.registerComponent('markerhandler', {
+   		};
+   		 AFRAME.registerComponent('markerhandler', {
 
    		    init: function() {
    		        const marker = document.querySelector("#quit");
@@ -84,8 +138,8 @@
    		        marker.addEventListener('click', function(e){
    		            location.href="${pageContext.request.contextPath}/map";
    		        });
-   		}}); */
-   </script>
+   		}}); 
+   </script> -->
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
@@ -99,7 +153,7 @@ setTimeout(function(){
 	this.document.getElementById("pos_form").submit();
 }, 2000);
 </script> -->
-<!-- <div class="div2">
+<!--  <div class="div2">
         <button class="stopButton" id="btnStop"> 종료  </button>
 </div> -->
 	<a-scene vr-mode-ui="enabled: false" embedded

@@ -7,6 +7,11 @@
 
 <link rel="stylesheet" type="text/css"
    href="${pageContext.request.contextPath}/resources/css/main.css">
+<style>
+body {
+   background-color: #ffffff;
+}
+</style>
 </head>
 
 

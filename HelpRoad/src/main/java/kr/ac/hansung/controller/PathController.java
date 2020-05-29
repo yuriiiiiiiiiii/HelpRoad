@@ -32,13 +32,14 @@ public class PathController {
 	public String conversion(Model model, HttpServletRequest request) { // 현재 위치(위도, 경도, 층), 도착 위치(매장 층, 이름) 전달
 
 		// current : 현재 위치 행렬
-		Point current = conversionService.mappingMap(Double.parseDouble(request.getParameter("latitude")),
-		Double.parseDouble(request.getParameter("longitude"))); // 현재 위도, 경도 -> 행렬 좌표
+		//Point current = conversionService.mappingMap(Double.parseDouble(request.getParameter("latitude")),
+		//Double.parseDouble(request.getParameter("longitude"))); // 현재 위도, 경도 -> 행렬 좌표
 
-		//Point current = conversionService.mappingMap(37.560321, 126.980490); // 임의 좌표
+		Point current = conversionService.mappingMap(37.560321, 126.980490); // 임의 좌표
 
-		//System.out.println(Integer.parseInt(request.getParameter("startFloor")));
-		//System.out.println(request.getParameter("floor"));
+		System.out.println(Integer.parseInt(request.getParameter("startFloor")));
+		System.out.println(request.getParameter("floor"));
+		System.out.println(request.getParameter("name"));
 
 		int startFloor = Integer.parseInt(request.getParameter("startFloor"));
 		int endFloor = Integer.parseInt(request.getParameter("floor"));
@@ -47,6 +48,10 @@ public class PathController {
 			Point destination1 = storeService.getStorePoint(startFloor, "엘리베이터1");
 			Point destination2 = storeService.getStorePoint(startFloor, "엘리베이터2");
 
+			/*System.out.println(current);
+			System.out.println(startFloor);
+			System.out.println(destination1);
+			System.out.println(destination2);*/
 			pathFindingService.getRoute(current, startFloor, destination1, destination2);
 			pathFindingService.draw();
 			
@@ -54,6 +59,9 @@ public class PathController {
 			// destination : 도착 위치 행렬
 			Point destination = storeService.getStorePoint(endFloor, request.getParameter("name"));
 
+			System.out.println(current.getX()+","+current.getY());
+			System.out.println(startFloor);
+			System.out.println(destination.getX()+","+destination.getY());
 			// 경로 만들기
 			pathFindingService.getRoute(current, startFloor, destination);
 			pathFindingService.draw();
@@ -75,8 +83,9 @@ public class PathController {
 
 		String heading = pathFindingService.navigation(Double.parseDouble(s));
 
+		// 경로 방향 안내 에러
 		if (heading.equals("error"))
-			System.out.println("에러다 꺄핳하ㅏ핳ㅎㅎ");
+			return "redirect:/map";
 
 		model.addAttribute("heading", heading);
 
@@ -112,10 +121,6 @@ public class PathController {
 		System.out.println(heading);
 
 		String direction = pathFindingService.navigation(Double.parseDouble(heading));
-
-		// 경로 방향 에러
-		if (direction.equals("error"))
-			System.out.println("에러다 꺄핳하ㅏ핳ㅎㅎ");
 
 		System.out.println(direction);
 
