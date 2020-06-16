@@ -24,11 +24,10 @@ public class StoreDao {
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 		
-		//이름 부분 받아서 층이랑 이름 보내고싶어
-		// query and return a multiple objects
+		// 검색 글자를 포함한 이름을 가진 매장 객체 리스트 리턴
 		public List<Store> getStores(String name) {
 
-			String sqlStatement = "select * from store where name like ?"; // ?=placeholder (밑에  "%" + name +		 "%" 이게 들어감)
+			String sqlStatement = "select * from store where name like ?"; // ?=placeholder (밑에  "%" + name + "%" 이게 들어감)
 
 			return jdbcTemplate.query(sqlStatement, new Object[] {"%" + name + "%"}, new RowMapper<Store>() {
 
@@ -47,6 +46,7 @@ public class StoreDao {
 			});
 		}
 
+		// 층과 이름으로 조회한 매장 객체 리턴
 		public Store getStoreByFloornName(int floor, String name) {
 			
 			String sqlStatement = "select * from store where name=? and floor=?";
@@ -68,6 +68,7 @@ public class StoreDao {
 			});
 		}
 
+		// 층과 이름으로 조회한 매장 위치 리턴
 		public Point getStorePoint(int floor, String name) {
 			
 			String sqlStatement = "select * from store where name=? and floor=?";

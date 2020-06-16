@@ -56,12 +56,13 @@ public class PathFindingService {
 		}
 	}
 
+	// https://jackpot53.tistory.com/123
 	public class Node {
 
 		int x; // 칸의 x 좌표
 		int y; // 칸의 y 좌표
 
-		// 이동한 경로를 연결리스트로 나타내기 위해 이전 Node를 참조하기위한 변수
+		// 이동한 경로를 연결리스트로 나타내기 위해 이전 Node를 참조
 		Node prev;
 
 		Node(int x, int y, Node prev) {
@@ -77,7 +78,7 @@ public class PathFindingService {
 		Queue<Node> queue = new LinkedList<>();
 		paths = new LinkedList<>();
 		
-		// 방문한 노드는 true 로 표시하기위한 변수
+		// 방문한 노드는 true로 표시
 		boolean[][] visited = new boolean[N][M];
 
 		visited[start.getX()][start.getY()] = true;
@@ -88,13 +89,12 @@ public class PathFindingService {
 
 		while (!queue.isEmpty()) {
 
-			// 현재 큐에 있는 것을 꺼낸다.
+			// 현재 큐에서 꺼내기
 			Node node = queue.poll();
 			
-			// 만약 node가 -> 출구까지 왔는지 체크한다..
+			// 만약 node가 출구까지 왔는지 확인
 			if (node.x == end.getX() && node.y == end.getY()) {
-				// 출구까지 왔으면 출구까지 오기전에 이전칸은 무엇이고 그 이전칸은 무엇인지
-				// 거꾸로 prev 노드를 올라가면서 list 에 추가하고 탐색을 마무리 한다.
+				// 출구까지 왔으면 출구까지 오기전에 거꾸로 이전 노드(prev)를 올라가면서 list에 추가하고 탐색을 마무리
 				Node s = node;
 				while (s != null) {
 					paths.add(0, s);
@@ -104,12 +104,12 @@ public class PathFindingService {
 			}
 
 			// 출구까지 온게 아니면 현재 칸(노드)에서 인접한 노드를
-			// 서 -> 남 -> 동 -> 북 순으로 검사해본다.
+			// 서 -> 남 -> 동 -> 북 순으로 검사
 			for (int i = 0; i < dist_x.length; i++) {
 				int vx = node.x + dist_x[i];
 				int vy = node.y + dist_y[i];
 				
-				// 인접한 (vx, vy) 노드기 이전에 방문하였거나 wall 이면
+				// 인접한 (vx, vy) 노드를 이미 방문하였거나 벽이면
 				if (is_path(vx, vy, visited)) {
 					visited[vx][vy] = true;
 					queue.offer(new Node(vx, vy, node));
@@ -125,7 +125,7 @@ public class PathFindingService {
 			return false;
 		}
 
-		// 이미 방문한 노드도 안됨. wall 은 갈수 없음.
+		// 이미 방문한 노드와 벽은 false 리턴
 		if (visited[x][y] || map[x][y] == 1) {
 			return false;
 		}
@@ -153,6 +153,7 @@ public class PathFindingService {
 	private Node read;
 	private Node readNext;
 
+	// 방향 확인
 	public String correctDirection(int heading, int direction) {
 		
 		if(heading >= 0 && heading < 180) { // heading : 0 ~ 180 미만
@@ -196,6 +197,7 @@ public class PathFindingService {
 
 	}
 
+	// 방향 리턴
 	public String navigation(double starth) { // starth : 현재 방향
 		
 		if(start.getX() == elve.getX() && start.getY() == elve.getY())
@@ -222,6 +224,7 @@ public class PathFindingService {
 		return heading;
 	}
 
+	// 같은 층 경로
 	public void getRoute(Point startp, int startFloor, Point endp) { // startp : 현재 위치, startFloor : 현재 층, endp : 도착 위치
 		
 		elve = new Point();
@@ -245,6 +248,7 @@ public class PathFindingService {
 		
 	}
 
+	// 다른 층 경로
 	public void getRoute(Point startp, int startFloor, Point elve1, Point elve2) { // startp : 현재 위치 , startFloor : 현재 층, elve1 : 엘리베이터1, elve2 : 엘리베이터2
 		
 		elve = new Point();

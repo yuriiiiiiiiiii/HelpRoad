@@ -1,13 +1,11 @@
 package kr.ac.hansung.model;
 
-import lombok.NoArgsConstructor;
-
-
-@NoArgsConstructor
 public class Point {
 
 	   private double lat, lon; //latitude 위도, longitude 경도
 	   private int x, y;   //   행렬 x, y
+	   
+	   public Point() {}
 	   
 	   public Point(double lat, double lon) {
 		   this.lat = lat;

@@ -36,7 +36,7 @@ public class PathController {
 		
 		if(request.getParameter("latitude") != null && request.getParameter("longitude") != null) {	// 현재 위치를 얻었을 때
 			current = conversionService.mappingMap(Double.parseDouble(request.getParameter("latitude")), Double.parseDouble(request.getParameter("longitude"))); // 현재 위도, 경도 -> 행렬 좌표
-		}		
+		}
 		else {	// elevator에서 길 찾기 재개할 때
 			current.setPoint(Integer.parseInt(request.getParameter("startpx")), Integer.parseInt(request.getParameter("startpy")));
 		}
@@ -86,7 +86,7 @@ public class PathController {
 		String s = request.getParameter("heading");
 	
 		String heading = pathFindingService.navigation(Double.parseDouble(s));
-
+		System.out.println("heading : "+heading);
 		model.addAttribute("heading", heading);
 
 		return "path";

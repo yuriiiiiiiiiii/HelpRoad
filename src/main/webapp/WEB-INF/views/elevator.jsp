@@ -18,25 +18,34 @@
 <script src="https://code.jquery.com/jquery-1.11.0.js"></script>
 <script>
   $(function() {
-	   if(window.DeviceOrientationEvent){	// 자이로센서 기능 지원 확인
+		var heading;
+	
+		navigator.geolocation.getCurrentPosition(function(position){
+			heading = position.coords.heading;
+			$('#heading').attr('value', heading);
+		}, function(error){
+			alert("방향을 얻어오는 것에 실패했습니다 :(");
+		}, { enableHighAccuracy: true, maximumAge: 1000 });
+  	
+	   if(heading == null && window.DeviceOrientationEvent){	// geolocation으로 방향을 얻어오지 못할 때  자이로센서 기능 지원 확인
 	    	window.addEventListener('deviceorientation', function(event){
-	    		var alpha;
+	    		
 	    		// ios
 	    		if(event.webkitCompassHeading){
-	    			alpha = event.webkitCompassHeading;
+	    			heading = event.webkitCompassHeading;
 	    		}
 	    		
 	    		// android
 	    		else{
-	    			alpha = event.alpha - 180;
-	    			if(alpha < 0){
-	    				alpha = 360 + alpha;
+	    			heading = event.alpha - 180;
+	    			if(heading < 0){
+	    				heading = 360 + heading;
 	    			}
 	    		}
-	    		$('#heading').attr('value', alpha);
+	    		$('#heading').attr('value', heading);
 	    	});
 	    	
-	    }
+		}
 		else{
 			alert('이 기기는 방향 지원을 하지 않습니다.');
 		}

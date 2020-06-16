@@ -17,34 +17,38 @@
 <script src="https://code.jquery.com/jquery-1.11.0.js"></script>
 <script>
    $(function() {
+	   var heading;
+	   
       // Geolocation API에 액세스할 수 있는지를 확인
       if (navigator.geolocation) {
          //위치 정보를 얻기
          navigator.geolocation.getCurrentPosition(function(pos) {
             $('#latitude').attr('value', pos.coords.latitude); // 위도
             $('#longitude').attr('value', pos.coords.longitude); // 경도
+            heading = pos.coords.heading;
+            $('#heading').attr('value', heading); // 방향
          }, function(error){
-               alert("error");
-            }, { enableHighAccuracy: true, maximumAge: 5000}); 
+               alert("현재 위치 접근에 실패했습니다 :(");
+            }, { enableHighAccuracy: true, maximumAge: 3000}); 
       } else {
          alert("이 브라우저에서는 Geolocation이 지원되지 않습니다.")
       }
-	  if(window.DeviceOrientationEvent){	// 자이로센서 기능 지원 확인
+	  if(heading == null && window.DeviceOrientationEvent){	// geolocation으로 방향을 얻어오지 못할 때  자이로센서 기능 지원 확인
 	    	window.addEventListener('deviceorientation', function(event){
-	    		var alpha;
+
 	    		// ios
 	    		if(event.webkitCompassHeading){
-	    			alpha = event.webkitCompassHeading;
+	    			heading = event.webkitCompassHeading;
 	    		}
 	    		
 	    		// android
 	    		else{
-	    			alpha = event.alpha - 180;
-	    			if(alpha < 0){
-	    				alpha = 360 + alpha;
+	    			heading = event.alpha - 180;
+	    			if(heading < 0){
+	    				heading = 360 + heading;
 	    			}
 	    		}
-	    		$('#heading').attr('value', alpha);
+	    		$('#heading').attr('value', heading);
 	    	});
 	    	
 	    }

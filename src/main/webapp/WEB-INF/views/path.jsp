@@ -19,20 +19,28 @@
     <script>
     window.onload = function(){
     	
-		if(window.DeviceOrientationEvent){	// 자이로센서 기능 지원 확인
-			var alpha;
+    	var heading;
+    	navigator.geolocation.getCurrentPosition(function(position){
+			heading = position.coords.heading;
+			 
+		}, function(error){
+			alert("방향을 얻어오는 것에 실패했습니다 :(");
+		}, { enableHighAccuracy: true, maximumAge: 1500 });
+    	
+		if(heading == null && window.DeviceOrientationEvent){	// geolocation으로 방향을 얻어오지 못할 때  자이로센서 기능 지원 확인
+
 	    	window.addEventListener('deviceorientation', function(event){
 
 	    		// ios
 	    		if(event.webkitCompassHeading){
-	    			alpha = event.webkitCompassHeading;
+	    			heading = event.webkitCompassHeading;
 	    		}
 	    		
 	    		// android
 	    		else{
-	    			alpha = event.alpha - 180;
-	    			if(alpha < 0){
-	    				alpha = 360 + alpha;
+	    			heading = event.alpha - 180;
+	    			if(heading < 0){
+	    				heading = 360 + heading;
 	    			}
 	    		}
 	    	
@@ -40,15 +48,15 @@
 	    	
 	    	setInterval(function(){
 	    		
-				 $.ajax({
+				 $.ajax({	// 화면 전환 없이 업데이트
 					url: "path.do",
 					type: 'POST',
 					header: {"Cache-Control": "no-cache, no-store, must-revalidate", "Pragma": "no-cache", "Expires": "0"},	//cache 사용x
-					data: {"heading": alpha},
-					cache: false,	//post에선 사용x
+					data: {"heading": heading},
+					cache: false,	// post에선 사용x
 					dataType: "text",
 					success: function(data){
-						document.querySelector('a-entity').flushToDOM(true);
+
 						document.querySelector('#navi').setAttribute('src', `${pageContext.request.contextPath}/resources/images/`+data+`.png`);
 						document.querySelector('a-entity').flushToDOM(true);
 						if(data == "end") {
